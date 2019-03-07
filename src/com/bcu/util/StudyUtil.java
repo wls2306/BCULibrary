@@ -5,6 +5,7 @@ import com.bcu.service.SeatService;
 import com.bcu.service.StudyService;
 import com.bcu.service.UserService;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,6 +15,14 @@ import java.util.Date;
 import java.util.Iterator;
 
 public class StudyUtil {
+    @Autowired
+    private SeatService seatService;
+    @Autowired
+    private UserService userService;
+
+
+
+
     public static ArrayList<Study> studyList=new ArrayList<>();
 
     public static void scan()
@@ -54,7 +63,7 @@ public class StudyUtil {
                 /**
                  * *********座位解锁操作************
                  */
-                 new SeatService().checkOutSeat( Integer.parseInt(s.getStudySeatId()));
+                 new seatService.checkOutSeat( Integer.parseInt(s.getStudySeatId()));
 
                 /**
                  * *********时长添加操作************
