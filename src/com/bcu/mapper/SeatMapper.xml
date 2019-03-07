@@ -6,7 +6,7 @@
     <sql id="Base_Column_List">
     </sql>
     <resultMap id="AllColumnMap" type="com.bcu.pojo.Seat">
-        <result column="seat_id" property="seatId"/>
+        <result column="seat_id" property="seatId" />
         <result column="seat_status" property="seatStatus"/>
         <result column="seat_user_id" property="seatUserId"/>
         <result column="seat_user_name" property="seatUserName"/>

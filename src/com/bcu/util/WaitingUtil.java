@@ -2,23 +2,19 @@ package com.bcu.util;
 
 import com.bcu.pojo.Seat;
 import com.bcu.pojo.Wait;
+import com.bcu.service.MessageService;
 import com.bcu.service.SeatService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 
-/**
- *   Info HashMap 规定
- *   Key            Value
- *  seat            seatId
- *  座位编号
- *  time            Date
- *  到期时间
- */
+
 public class WaitingUtil {
     public static List<Wait> seatWaitingList=new ArrayList<Wait>();
-
+    @Autowired
+     private  MessageService messageService;
 
     /**
      * 持续扫描等待队列，等待期满后进行退座操作
@@ -45,6 +41,7 @@ public class WaitingUtil {
      */
     public static boolean checkInWatingList(Wait w)
     {
+
         return  seatWaitingList.add(w);
     }
 
@@ -62,6 +59,7 @@ public class WaitingUtil {
             {
                 if (new SeatService().checkOutSeat(seatId)) { //先在数据库中移除对象 后在队列中移除数据
                     seatWaitingList.remove(i);
+                   //deleteMessage(seatId);
                     return true;
                 }
             }
@@ -95,6 +93,11 @@ public class WaitingUtil {
         rightnow.add(Calendar.MINUTE,waitingMinute);
         Date rs=rightnow.getTime();
         return rs;
+    }
+
+    public boolean deleteMessage(String seatid)
+    {
+        return messageService.deletebyMessageSeatId(seatid);
     }
 
 

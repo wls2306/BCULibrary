@@ -83,6 +83,7 @@ public class Seat {
         this.seatTimeEnd = seatTimeEnd;
     }
 
+    /*
     public Seat(int seatId, int seatStatus, String seatUserId, String seatUserName, Date seatTimeStart, Date seatTimeEnd) {
         this.seatId = seatId;
         this.seatStatus = seatStatus;
@@ -90,5 +91,5 @@ public class Seat {
         this.seatUserName = seatUserName;
         this.seatTimeStart = seatTimeStart;
         this.seatTimeEnd = seatTimeEnd;
-    }
+    }*/
 }

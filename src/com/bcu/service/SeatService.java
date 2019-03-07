@@ -20,7 +20,11 @@ public class SeatService {
 
     @Autowired
     private SeatMapper seatDao;
+    @Autowired
     private UserMapper userDao;
+    @Autowired
+    private SeatService seatService;
+
 
     public boolean insert(Seat pojo){
        return seatDao.insert(pojo)>0?true:false;
@@ -30,11 +34,17 @@ public class SeatService {
     {
         boolean rs=false;
 
-        if (new SeatService().seatIsEnable(seatId)) {
+        if ( seatService.seatIsEnable(seatId)) {
 
 
             String u = userDao.findUserNameByUserId(userId);
-            Seat s = new Seat(seatId, -1, userId, u, start, end);
+            Seat s = new Seat(); //(seatId, -1, userId, u, start, end);
+            s.setSeatId(seatId);
+            s.setSeatStatus(-1);
+            s.setSeatUserId(userId);
+            s.setSeatUserName(u);
+            s.setSeatTimeStart(start);
+            s.setSeatTimeEnd(end);
 
             rs = seatDao.update(s) > 0 ? true : false;
             Study study=new Study();
@@ -53,8 +63,6 @@ public class SeatService {
 
     public boolean seatIsEnable(int seatId)
     {
-
-
         Seat s=seatDao.findBySeatId(seatId);
         if (s.getSeatStatus()==1)
             return true;
@@ -73,7 +81,9 @@ public class SeatService {
     public boolean checkOutSeat(int seatId)
     {
 
-        Seat s=new Seat(seatId,1,null,null,null,null);
+        Seat s=new Seat();//(seatId,1,null,null,null,null);
+        s.setSeatId(seatId);
+        s.setSeatStatus(1);
         boolean rs=seatDao.update(s)>0?true:false;
 
         return rs;
