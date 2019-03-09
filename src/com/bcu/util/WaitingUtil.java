@@ -1,5 +1,6 @@
 package com.bcu.util;
 
+import com.bcu.pojo.Message;
 import com.bcu.pojo.Seat;
 import com.bcu.pojo.Wait;
 import com.bcu.service.MessageService;
@@ -30,7 +31,7 @@ public class WaitingUtil {
             w=(Wait)seatWaitingList.get(i);
             d=w.getEndTime();
             if (d.before(now))
-                checkOutWaitingList(Integer.parseInt(w.getSeatId()));
+                new WaitingUtil().checkOutWaitingList(Integer.parseInt(w.getSeatId()));
         }
     }
 
@@ -41,7 +42,6 @@ public class WaitingUtil {
      */
     public static boolean checkInWatingList(Wait w)
     {
-
         return  seatWaitingList.add(w);
     }
 
@@ -50,7 +50,7 @@ public class WaitingUtil {
      * @param seatId
      * @return
      */
-    public static boolean  checkOutWaitingList(int seatId)
+    public  boolean  checkOutWaitingList(int seatId)
     {
         for (int i=0;i<seatWaitingList.size();i++)
         {
@@ -59,7 +59,7 @@ public class WaitingUtil {
             {
                 if (new SeatService().checkOutSeat(seatId)) { //先在数据库中移除对象 后在队列中移除数据
                     seatWaitingList.remove(i);
-                   //deleteMessage(seatId);
+                    messageService.deletebyMessageSeatId(seatId+"");
                     return true;
                 }
             }

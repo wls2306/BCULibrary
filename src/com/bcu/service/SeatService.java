@@ -14,7 +14,7 @@ import com.bcu.mapper.SeatMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("SeatService")
 public class SeatService {
 
 
@@ -78,15 +78,19 @@ public class SeatService {
      * @param seatId
      * @return
      */
-    public boolean checkOutSeat(int seatId)
+    public boolean checkOutSeat(Integer seatId)
     {
 
         Seat s=new Seat();//(seatId,1,null,null,null,null);
         s.setSeatId(seatId);
         s.setSeatStatus(1);
-        boolean rs=seatDao.update(s)>0?true:false;
+        s.setSeatTimeEnd(null);
+        s.setSeatUserId("");
+        s.setSeatUserName("");
+        s.setSeatTimeEnd(null);
+        return seatDao.checkOutBySeatId(seatId)>0?true:false;
 
-        return rs;
+
     }
 
     public Seat selectSeatBySeatId(String seatId)

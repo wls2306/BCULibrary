@@ -73,8 +73,8 @@ public class StudyController  {
         resp.setContentType("text/json;charset=UTF8");
         PrintWriter out=resp.getWriter();
 
-        String userId=req.getParameter("userId");
-        boolean rs=StudyUtil.checkOut(userId);
+        String seatId=req.getParameter("seatId");
+        boolean rs= StudyUtil.checkOut(seatId);
         out.println(rs);
     }
 

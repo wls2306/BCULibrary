@@ -6,7 +6,12 @@ import com.bcu.service.StudyService;
 import com.bcu.service.UserService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,13 +19,31 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 
+/**
+ * 空指针解决
+ * https://blog.csdn.net/lianzhang861/article/details/79673134
+ * 一直bean报错解决： content-scan 放在 application content 里
+ */
+@Component
 public class StudyUtil {
     @Autowired
-    private SeatService seatService;
-    @Autowired
     private UserService userService;
+    @Autowired
+    private StudyService studyService;
+    @Autowired
+    private SeatService seatService;
 
 
+    private static  StudyUtil studyUtil;
+
+    @PostConstruct
+    public void init( )
+    {
+       studyUtil=this;
+       studyUtil.userService=this.userService;
+       studyUtil.studyService=this.studyService;
+       studyUtil.seatService=this.seatService;
+    }
 
 
     public static ArrayList<Study> studyList=new ArrayList<>();
@@ -35,7 +58,7 @@ public class StudyUtil {
             Date end=s.getStudyEndTime();
            // System.out.println(end);
             if (end.before(new Date())) {
-                checkOut(s.getStudyUserId());
+                new StudyUtil().checkOut(s.getStudyUserId());
                 System.out.println(s.getStudyUserName() +"超时退座");
             }
         }
@@ -48,22 +71,24 @@ public class StudyUtil {
          return studyList.add(study);
     }
 
-    public static boolean checkOut(String userId)
+    public static boolean  checkOut(String seatId)
     {
 
         Study s;
         for (int i=0;i<studyList.size();i++)
         {
             s=studyList.get(i);
-            if (s.getStudyUserId().equals(userId)) {
-                int seatId= Integer.parseInt(s.getStudySeatId()) ;
+            if (s.getStudySeatId().equals(seatId)) {
                 s.setStudyEndTime(StudyUtil.getTime(0)[0]);//将退座时间改为当前时间
                 studyList.remove(i);
-                System.out.println("Check-out:"+userId);
+                System.out.println("Check-out:"+s.getStudyUserId());
                 /**
+                 *
                  * *********座位解锁操作************
                  */
-                 new seatService.checkOutSeat( Integer.parseInt(s.getStudySeatId()));
+
+                    /* 空指针？  需要在applicationContent中加上工具包*/
+                         studyUtil.seatService.checkOutSeat(Integer.parseInt(seatId));
 
                 /**
                  * *********时长添加操作************
@@ -76,13 +101,15 @@ public class StudyUtil {
                     int hours=(end.get(Calendar.HOUR)-end.get(Calendar.HOUR))*60;
                     int result=(hours+minute)/60;
                     if (result>0)
-                          new UserService().addUserStudyTime(userId,result);
+          //              studyUtil.userService.addUserStudyTime(s.getStudyUserId(),result);
+                  //      userService.addUserStudyTime(s.getStudyUserId(),result);
 
                 /**
                  * ********学习记录录入操作************
                  */
                 try {
-                    new StudyService().insert(s);
+                    studyUtil.studyService.insert(s);
+             //       studyService.insert(s);
                 }catch (Exception e)
                 {
                     e.printStackTrace();

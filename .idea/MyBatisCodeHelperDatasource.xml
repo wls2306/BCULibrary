@@ -45,6 +45,7 @@
                   <option name="javaMapperPath" value="$PROJECT_DIR$/src" />
                   <option name="javaModelPacakge" value="com.bcu.pojo" />
                   <option name="javaModelPath" value="$PROJECT_DIR$/src" />
+                  <option name="javaServicePath" value="$PROJECT_DIR$/src" />
                   <option name="xmlPackage" value="com.bcu.mapper" />
                   <option name="xmlPath" value="E:\BCULbrary\src\com\bcu\mapper" />
                 </UserPackageAndPathInfoByModule>

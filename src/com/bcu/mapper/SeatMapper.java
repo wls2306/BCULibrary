@@ -23,6 +23,10 @@ public interface SeatMapper {
 
     int CountAvailableSeat();
 
+    int checkOutBySeatId(@Param("seatId")Integer seatId);
+
+
+
 
 
 

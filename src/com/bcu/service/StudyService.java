@@ -3,15 +3,16 @@ package com.bcu.service;
 import com.bcu.mapper.StudyMapper;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 import com.bcu.pojo.Study;
 
-@Service
+@Service("StudyService")
 public class StudyService {
 
-    @Resource
+    @Autowired
     private StudyMapper studyDao;
 
 
