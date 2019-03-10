@@ -18,6 +18,9 @@ public class WaitingUtil {
     public static List<Wait> seatWaitingList=new ArrayList<Wait>();
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private SeatService seatService;
+
 
     private static WaitingUtil waitingUtil;
 
@@ -26,6 +29,7 @@ public class WaitingUtil {
     {
         waitingUtil=this;
         waitingUtil.messageService=this.messageService;
+        waitingUtil.seatService=this.seatService;
     }
 
     /**
@@ -68,7 +72,10 @@ public class WaitingUtil {
             Wait w=seatWaitingList.get(i);
             if (w.getSeatId()==seatId+"")
             {
-                if (new SeatService().checkOutSeat(seatId)) { //先在数据库中移除对象 后在队列中移除数据
+                /**
+                 *  被举报造成的强制退座，学习时长不计
+                 */
+                if ( waitingUtil.seatService.checkOutSeat(seatId)) { //先在数据库中移除对象 后在队列中移除数据
                     seatWaitingList.remove(i);
                       waitingUtil.messageService.deletebyMessageSeatId(seatId+"");
                     return true;
@@ -106,10 +113,10 @@ public class WaitingUtil {
         return rs;
     }
 
-    public boolean deleteMessage(String seatid)
+   /*public boolean deleteMessage(String seatid)
     {
         return messageService.deletebyMessageSeatId(seatid);
-    }
+    }*/
 
 
 

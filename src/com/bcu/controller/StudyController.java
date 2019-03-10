@@ -26,6 +26,7 @@ import java.util.HashMap;
 public class StudyController  {
     @Autowired
     private SeatService seatService;
+    @Autowired
     private MessageService messageService;
 
     @RequestMapping(value = "/checkin",method = {RequestMethod.GET,RequestMethod.POST})
