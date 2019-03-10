@@ -101,7 +101,7 @@ public class StudyUtil {
                     int hours=(end.get(Calendar.HOUR)-end.get(Calendar.HOUR))*60;
                     int result=(hours+minute)/60;
                     if (result>0)
-          //              studyUtil.userService.addUserStudyTime(s.getStudyUserId(),result);
+                        studyUtil.userService.addUserStudyTime(s.getStudyUserId(),result);
                   //      userService.addUserStudyTime(s.getStudyUserId(),result);
 
                 /**

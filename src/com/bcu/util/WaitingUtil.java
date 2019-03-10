@@ -6,16 +6,27 @@ import com.bcu.pojo.Wait;
 import com.bcu.service.MessageService;
 import com.bcu.service.SeatService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 
-
+@Component
 public class WaitingUtil {
     public static List<Wait> seatWaitingList=new ArrayList<Wait>();
     @Autowired
-     private  MessageService messageService;
+    private MessageService messageService;
+
+    private static WaitingUtil waitingUtil;
+
+    @PostConstruct
+    public void init()
+    {
+        waitingUtil=this;
+        waitingUtil.messageService=this.messageService;
+    }
 
     /**
      * 持续扫描等待队列，等待期满后进行退座操作
@@ -31,7 +42,7 @@ public class WaitingUtil {
             w=(Wait)seatWaitingList.get(i);
             d=w.getEndTime();
             if (d.before(now))
-                new WaitingUtil().checkOutWaitingList(Integer.parseInt(w.getSeatId()));
+                waitingUtil.checkOutWaitingList(Integer.parseInt(w.getSeatId()));
         }
     }
 
@@ -50,7 +61,7 @@ public class WaitingUtil {
      * @param seatId
      * @return
      */
-    public  boolean  checkOutWaitingList(int seatId)
+    public static  boolean   checkOutWaitingList(int seatId)
     {
         for (int i=0;i<seatWaitingList.size();i++)
         {
@@ -59,7 +70,7 @@ public class WaitingUtil {
             {
                 if (new SeatService().checkOutSeat(seatId)) { //先在数据库中移除对象 后在队列中移除数据
                     seatWaitingList.remove(i);
-                    messageService.deletebyMessageSeatId(seatId+"");
+                      waitingUtil.messageService.deletebyMessageSeatId(seatId+"");
                     return true;
                 }
             }
