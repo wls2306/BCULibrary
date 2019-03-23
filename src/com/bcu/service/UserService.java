@@ -78,7 +78,7 @@ public class UserService {
 
     public int getUserRankByOpenId(String openid) {  return  userMapper.getUserRankByOpenId(openid); }
 
-
+    public String selectUserOpenIdByUserId(String userId){ return userMapper.selectUserOpenIdByUserId(userId) ;}
 
 
 }

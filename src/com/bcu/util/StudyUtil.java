@@ -78,7 +78,7 @@ public class StudyUtil {
         for (int i=0;i<studyList.size();i++)
         {
             s=studyList.get(i);
-            if (s.getStudySeatId().equals(seatId)) {
+            if ( Integer.valueOf(s.getStudySeatId()) ==Integer.valueOf(seatId)) {
                 s.setStudyEndTime(StudyUtil.getTime(0)[0]);//将退座时间改为当前时间
                 studyList.remove(i);
                 System.out.println("Check-out:"+s.getStudyUserId());

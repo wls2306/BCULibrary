@@ -45,9 +45,8 @@
                   <option name="javaMapperPath" value="$PROJECT_DIR$/src" />
                   <option name="javaModelPacakge" value="com.bcu.pojo" />
                   <option name="javaModelPath" value="$PROJECT_DIR$/src" />
-                  <option name="javaServicePath" value="$PROJECT_DIR$/src" />
                   <option name="xmlPackage" value="com.bcu.mapper" />
-                  <option name="xmlPath" value="E:\BCULbrary\src\com\bcu\mapper" />
+                  <option name="xmlPath" value="E:\BCULbrary\src\" />
                 </UserPackageAndPathInfoByModule>
               </value>
             </entry>
@@ -55,6 +54,16 @@
         </option>
         <option name="tableGenerateConfigs">
           <map>
+            <entry key="bcu_library:feedback">
+              <value>
+                <TableGenerateConfig>
+                  <option name="generatedKey" value="fb_id" />
+                  <option name="javaModelName" value="Feedback" />
+                  <option name="moduleName" value="BCULbrary" />
+                  <option name="useActualColumnName" value="false" />
+                </TableGenerateConfig>
+              </value>
+            </entry>
             <entry key="bcu_library:message">
               <value>
                 <TableGenerateConfig>
@@ -98,7 +107,7 @@
           </map>
         </option>
         <option name="xmlMapperPackage" value="com.bcu.mapper" />
-        <option name="xmlMapperPath" value="E:\BCULbrary\src\com\bcu\mapper" />
+        <option name="xmlMapperPath" value="E:\BCULbrary\src\" />
       </ProjectProfile>
     </option>
   </component>

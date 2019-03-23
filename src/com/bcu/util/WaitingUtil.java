@@ -38,14 +38,14 @@ public class WaitingUtil {
     public static void scan()
     {
         Date d;
-        Date now=new Date();
-        Wait w=new Wait();
+       // Date now=
+        Wait w;
         System.out.println("当前共有:"+seatWaitingList.size()+"人正在等待");
         for (int i=0;i<seatWaitingList.size();i++)
         {
             w=(Wait)seatWaitingList.get(i);
             d=w.getEndTime();
-            if (d.before(now))
+            if (d.before(new Date()))
                 waitingUtil.checkOutWaitingList(Integer.parseInt(w.getSeatId()));
         }
     }
@@ -57,6 +57,7 @@ public class WaitingUtil {
      */
     public static boolean checkInWatingList(Wait w)
     {
+        System.out.println("waiting list check in --"+w.getSeatId());
         return  seatWaitingList.add(w);
     }
 
@@ -94,9 +95,12 @@ public class WaitingUtil {
         for (int i=0;i<seatWaitingList.size();i++)
         {
             Wait w=seatWaitingList.get(i);
-            if (w.getSeatId()==seatId+"")
+            System.out.println("finding:"+w.getSeatId());
+            if (Integer.valueOf(w.getSeatId())==seatId)
             {
-                    seatWaitingList.remove(i);
+                    System.out.println("find:"+w.getSeatId());
+                     seatWaitingList.remove(i);
+                     waitingUtil.messageService.deletebyMessageSeatId(seatId+"");
                     return true;
             }
         }

@@ -1,4 +1,5 @@
 package com.bcu.mapper;
+import com.bcu.pojo.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
@@ -25,7 +26,9 @@ public interface SeatMapper {
 
     int checkOutBySeatId(@Param("seatId")Integer seatId);
 
+    String selectSeatUserIdBySeatId(@Param("seatId")Integer seatId);
 
+    User selectSeatUserBySeatId(String seatId);
 
 
 

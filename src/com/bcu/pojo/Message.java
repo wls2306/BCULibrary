@@ -4,34 +4,39 @@ import java.util.Date;
 
 public class Message {
     /**
-	* 
-	*/
+     *
+     */
     private Integer messageId;
 
     /**
-	* 
-	*/
+     *
+     */
     private String messageInitiatorId;
 
     /**
-	* 
-	*/
+     *
+     */
+    private String messageInitiatorOpenid;
+
+    /**
+     *
+     */
     private String messageReceiverId;
 
     /**
-	* 
-	*/
+     *
+     */
     private String messageSeatId;
 
     /**
-	* 
-	*/
+     *
+     */
     private String messageStatus;
 
     /**
-	* 
-	*/
-    private Date messageCreteTime;
+     *
+     */
+    private Date messageCreateTime;
 
     public Integer getMessageId() {
         return messageId;
@@ -47,6 +52,14 @@ public class Message {
 
     public void setMessageInitiatorId(String messageInitiatorId) {
         this.messageInitiatorId = messageInitiatorId;
+    }
+
+    public String getMessageInitiatorOpenid() {
+        return messageInitiatorOpenid;
+    }
+
+    public void setMessageInitiatorOpenid(String messageInitiatorOpenid) {
+        this.messageInitiatorOpenid = messageInitiatorOpenid;
     }
 
     public String getMessageReceiverId() {
@@ -73,12 +86,12 @@ public class Message {
         this.messageStatus = messageStatus;
     }
 
-    public Date getMessageCreteTime() {
-        return messageCreteTime;
+    public Date getMessageCreateTime() {
+        return messageCreateTime;
     }
 
-    public void setMessageCreteTime(Date messageCreteTime) {
-        this.messageCreteTime = messageCreteTime;
+    public void setMessageCreateTime(Date messageCreateTime) {
+        this.messageCreateTime = messageCreateTime;
     }
 
     @Override
@@ -89,10 +102,11 @@ public class Message {
         sb.append("Hash = ").append(hashCode());
         sb.append(", messageId=").append(messageId);
         sb.append(", messageInitiatorId=").append(messageInitiatorId);
+        sb.append(", messageInitiatorOpenid=").append(messageInitiatorOpenid);
         sb.append(", messageReceiverId=").append(messageReceiverId);
         sb.append(", messageSeatId=").append(messageSeatId);
         sb.append(", messageStatus=").append(messageStatus);
-        sb.append(", messageCreteTime=").append(messageCreteTime);
+        sb.append(", messageCreateTime=").append(messageCreateTime);
         sb.append("]");
         return sb.toString();
     }

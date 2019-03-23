@@ -6,6 +6,7 @@ import com.bcu.pojo.Study;
 import com.bcu.pojo.Wait;
 import com.bcu.service.MessageService;
 import com.bcu.service.SeatService;
+import com.bcu.service.UserService;
 import com.bcu.util.StudyUtil;
 import com.bcu.util.WaitingUtil;
 import net.sf.json.JSONObject;
@@ -28,6 +29,8 @@ public class StudyController  {
     private SeatService seatService;
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/checkin",method = {RequestMethod.GET,RequestMethod.POST})
     public void checkIn(HttpServletResponse resp, HttpServletRequest req) throws Exception
@@ -38,9 +41,13 @@ public class StudyController  {
         PrintWriter out=resp.getWriter();
         HashMap<String,String> rs=new HashMap<String, String>();
         String userId=req.getParameter("userId");
+        System.out.println(userId);
         String seatId=req.getParameter("seatId");
+        System.out.println(seatId);
        // String userName=req.getParameter("userName");
+
         String hours=req.getParameter("hours");
+        System.out.println(hours);
         Date[] date= StudyUtil.getTime(Integer.parseInt(hours));
 
         rs.put("result",seatService.checkInSeat( Integer.parseInt(seatId),userId,date[0],date[1])+"");
@@ -59,11 +66,19 @@ public class StudyController  {
         PrintWriter out=resp.getWriter();
 
         String seatId=req.getParameter("seatId");
-
+        String userId=seatService.selectSeatUserIdBySeatId(Integer.parseInt(seatId));
+        String openid=userService.selectUserOpenIdByUserId(userId);
+        HashMap<String,String> rsMap=new HashMap<>();
         if(seatService.seatIsEnable(Integer.parseInt(seatId)))
-            out.println(1);
+            rsMap.put("rs","true");
         else
-            out.println(-1);
+            {
+                rsMap.put("rs", "false");
+                rsMap.put("openid", openid);
+            }
+
+            out.println(JSONObject.fromObject(rsMap));
+
     }
 
     @RequestMapping(value = "/checkOut",method = {RequestMethod.GET,RequestMethod.POST})
@@ -76,7 +91,7 @@ public class StudyController  {
 
         String seatId=req.getParameter("seatId");
         boolean rs= StudyUtil.checkOut(seatId);
-        out.println(rs);
+        out.println("true");
     }
 
     @RequestMapping(value = "/report",method = {RequestMethod.GET,RequestMethod.POST})
@@ -88,20 +103,44 @@ public class StudyController  {
         PrintWriter out=resp.getWriter();
 
         String initiatorId=req.getParameter("initiatorId");
-        String receiverId=req.getParameter("receiverId");
         String seatId=req.getParameter("seatId");
-
+        String initiatorOpenId=req.getParameter("initiatorOpenid");
+        String receiverId=seatService.selectSeatUserIdBySeatId(Integer.parseInt(seatId));
 
         Wait w=new Wait();
         w.setSeatId(seatId);
         w.setEndTime(WaitingUtil.getFinalTime(15));
-        WaitingUtil.checkInWatingList(w);
-        messageService.createMessage(initiatorId,receiverId,seatId);
+
         HashMap<String,String> rs=new HashMap<>();
-        rs.put("result",( messageService.createMessage(initiatorId,receiverId,seatId)&&WaitingUtil.checkInWatingList(w))+"");
+        rs.put("result",( messageService.createMessage(initiatorId,receiverId,seatId,initiatorOpenId)&&WaitingUtil.checkInWatingList(w))+"");
         out.println(JSONObject.fromObject(rs));
 
     }
+
+    @RequestMapping(value = "/cancelWaiting",method = {RequestMethod.GET,RequestMethod.POST})
+    public void cancelWaiting(HttpServletRequest req,HttpServletResponse resp)throws Exception
+    {
+        req.setCharacterEncoding("utf-8");
+        resp.setCharacterEncoding("utf-8");
+        resp.setContentType("text/json;charset=UTF8");
+
+        PrintWriter out=resp.getWriter();
+
+        String seatId=req.getParameter("seatId");
+
+        HashMap rs=new HashMap();
+        rs.put("result",WaitingUtil.cancelOutWaitingList(Integer.parseInt(seatId))+"");
+
+        out.println(JSONObject.fromObject(rs));
+    }
+
+
+
+   /* @RequestMapping(value = "/onSeat",method = {RequestMethod.GET})
+    public void isOnSeat(HttpServletRequest req,HttpServletResponse resp)
+    {
+
+    }*/
 
 
 

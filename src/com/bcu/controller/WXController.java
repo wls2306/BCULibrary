@@ -19,8 +19,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @Controller
-public class WXLoginController {
+public class WXController {
 
+
+    /**
+     * 获取用户OpenId
+     * @param req
+     * @param resp
+     * @throws Exception
+     */
     @RequestMapping(value = "/login",method = {RequestMethod.GET,RequestMethod.POST})
     public void dologin(HttpServletRequest req, HttpServletResponse resp) throws Exception
     {
@@ -43,11 +50,31 @@ public class WXLoginController {
             out.flush();
             out.close();
         }
+    }
 
+    /**
+     * 根据OpenId获取用户微信信息
+     * @param req
+     * @param resp
+     * @throws Exception
+     */
+    @RequestMapping(value = "/getUserWxInfo",method = {RequestMethod.GET,RequestMethod.POST})
+    public void getUserWxInfo(HttpServletRequest req,HttpServletResponse resp) throws Exception
+    {
+        req.setCharacterEncoding("utf-8");
+        resp.setCharacterEncoding("utf-8");
+        resp.setContentType("html/json;charset=UTF8");
 
+        PrintWriter out=resp.getWriter();
 
-
-
+        String openid=req.getParameter("openid");
+        String access_token=req.getParameter("accessToken");
+        String url="https://api.weixin.qq.com/cgi-bin/user/info?access_token="+access_token+"&openid="+openid+"&lang=zh_CN";
+        String result=get(url);
+        JSONObject json=JSONObject.fromObject(result);
+        out.println(json);
+        out.flush();
+        out.close();
 
     }
 

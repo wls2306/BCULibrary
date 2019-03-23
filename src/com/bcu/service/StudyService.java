@@ -41,4 +41,11 @@ public class StudyService {
         return -1;
     }
 
+    public List<Study> selectStudyRecordByTime(String timeStart,String timeEnd)
+    {
+        return studyDao.selectStudyRecordByTime(timeStart,timeEnd);
+    }
+
+    public List<Study> selectStudyRecordBySeatId(String seatId){  return  studyDao.selectbyStudySeatId(seatId);  }
+
 }

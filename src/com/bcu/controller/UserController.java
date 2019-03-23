@@ -56,6 +56,7 @@ public class UserController {
         resp.setContentType("text/json;charset=UTF8");
         PrintWriter out=resp.getWriter();
         String openId=req.getParameter("openid");
+
         out.println(JSONObject.fromObject( userService.findUserByOpenId(openId)));
 
     }

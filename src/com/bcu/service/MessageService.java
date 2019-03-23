@@ -13,13 +13,14 @@ public class MessageService {
 @Autowired
     private MessageMapper messageMapper;
 
-public boolean createMessage(String initiatorId,String receiverId,String seatId) {
+public boolean createMessage(String initiatorId,String receiverId,String seatId,String initiatorOpenId) {
     Message m=new Message();
     m.setMessageInitiatorId(initiatorId);
     m.setMessageReceiverId(receiverId);
+    m.setMessageInitiatorOpenid(initiatorOpenId);
     m.setMessageSeatId(seatId);
     m.setMessageStatus("1");
-    m.setMessageCreteTime(new Date());
+    m.setMessageCreateTime(new Date());
     return  messageMapper.insert(m)>0?true:false;
 }
 

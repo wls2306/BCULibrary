@@ -2,6 +2,7 @@ package com.bcu.service;
 
 import com.bcu.mapper.UserMapper;
 import com.bcu.pojo.Study;
+import com.bcu.pojo.User;
 import com.bcu.util.StudyUtil;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -100,15 +101,16 @@ public class SeatService {
         return s;
     }
 
-
-
-
+    public User selectSeatUser(String seatId){ return seatDao.selectSeatUserBySeatId(seatId); }
 
     public List<Seat> select(Seat pojo){
         return seatDao.select(pojo);
     }
 
     public int CountAvailableSeat() {  return seatDao.CountAvailableSeat();   }
+
+    public String selectSeatUserIdBySeatId(Integer seatId){ return seatDao.selectSeatUserIdBySeatId(seatId); }
+
 
 
 }

@@ -1,7 +1,7 @@
 package com.bcu.mapper;
-import org.apache.ibatis.annotations.Param;
+import java.util.List;
 
-import com.bcu.pojo.Message;
+import com.bcu.pojo.Message;import org.apache.ibatis.annotations.Param;
 
 public interface MessageMapper {
     int deleteByPrimaryKey(Integer messageId);
@@ -16,10 +16,15 @@ public interface MessageMapper {
 
     int updateByPrimaryKey(Message record);
 
-     int deleteBYMessageReceiverId(@Param("messageReceiverId")String messageReceiverId);
+    Message  selectByMessageReceiverId(@Param("messageReceiverId")String messageReceiverId);
 
-     int deletebyMessageSeatId(@Param("messageSeatId")String messageSeatId);
 
+
+    int  deleteBYMessageReceiverId(@Param("messageReceiverId")String messageReceiverId);
+
+
+
+    int  deletebyMessageSeatId(@Param("messageSeatId")String messageSeatId);
 
 
 }

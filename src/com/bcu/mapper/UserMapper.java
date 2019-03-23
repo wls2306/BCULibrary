@@ -51,6 +51,8 @@ public interface UserMapper {
 
      int getUserRankByOpenId(@Param("userOpenId")String userOpenId);
 
+     String selectUserOpenIdByUserId(@Param("userId")String userId);
+
 
 
 
