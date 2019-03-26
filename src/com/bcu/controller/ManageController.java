@@ -1,5 +1,6 @@
 package com.bcu.controller;
 
+import com.bcu.mapper.StudyMapper;
 import com.bcu.pojo.Feedback;
 import com.bcu.pojo.Study;
 import com.bcu.pojo.User;
@@ -28,7 +29,7 @@ public class ManageController {
      *  查询时间范围内的占座信息 √
      *  通过座位号查询使用记录 √
      *  问题反馈√
-     *  根据学部获取学部学生总学习时长 ×
+     *  根据学部获取学部学生总学习时长 √
      *  输入座位号查询当前座位学习情况 √
      */
 @Autowired
@@ -37,6 +38,8 @@ private StudyService studyService;
 private SeatService seatService;
 @Autowired
 private FeedbackService feedbackService;
+@Autowired
+private StudyMapper studyMapper;
 
     /**
      * 查询时间范围内的占座信息
@@ -131,6 +134,34 @@ private FeedbackService feedbackService;
 
 
         out.println(JSONObject.fromObject(result));
+
+
+    }
+
+
+    /**
+     * 获取学部学习总时长
+     * @param req
+     * @param resp
+     * @throws Exception
+     */
+    @RequestMapping(value = "/getStudyTimeByUserPart",method = {RequestMethod.GET,RequestMethod.POST})
+    public void getStudyTimeByUserPart(HttpServletRequest req,HttpServletResponse resp)throws Exception
+    {
+        req.setCharacterEncoding("utf-8");
+        resp.setCharacterEncoding("utf-8");
+        resp.setContentType("text/json;charset=UTF8");
+
+        PrintWriter out=resp.getWriter();
+
+        String part=req.getParameter("part");
+
+        int rs=studyMapper.selectStudyTimeByUserPart(part);
+
+        HashMap<String,String> rsMap=new HashMap<>();
+        rsMap.put("result",rs+"");
+        out.println(JSONObject.fromObject(rsMap));
+
 
 
     }

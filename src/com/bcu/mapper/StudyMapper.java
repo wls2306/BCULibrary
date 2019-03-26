@@ -20,6 +20,6 @@ public interface StudyMapper {
 
     List<Study> selectbyStudySeatId(@Param("studySeatId")String studySeatId);
 
-
+    int selectStudyTimeByUserPart(String studyUserPart);
 
 }

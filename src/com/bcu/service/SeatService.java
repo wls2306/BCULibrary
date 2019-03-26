@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import com.bcu.pojo.Seat;
 import com.bcu.mapper.SeatMapper;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,19 +32,21 @@ public class SeatService {
        return seatDao.insert(pojo)>0?true:false;
     }
 
-    public boolean checkInSeat(int seatId, String userId, Date start,Date end)
+
+    public boolean checkInSeat(int seatId, String userId, Date start,Date end,String userName,String userPart)
     {
         boolean rs=false;
+
 
         if ( seatService.seatIsEnable(seatId)) {
 
 
-            String u = userDao.findUserNameByUserId(userId);
+
             Seat s = new Seat(); //(seatId, -1, userId, u, start, end);
             s.setSeatId(seatId);
             s.setSeatStatus(-1);
             s.setSeatUserId(userId);
-            s.setSeatUserName(u);
+            s.setSeatUserName(userName);
             s.setSeatTimeStart(start);
             s.setSeatTimeEnd(end);
 
@@ -51,7 +54,8 @@ public class SeatService {
             Study study=new Study();
                 study.setStudySeatId(seatId+"");
                 study.setStudyUserId(userId);
-                study.setStudyUserName(u);
+                study.setStudyUserName(userName);
+                study.setStudyUserPart(userPart);
                 study.setStudyStartTime(start);
                 study.setStudyEndTime(end);
 

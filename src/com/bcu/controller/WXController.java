@@ -1,5 +1,6 @@
 package com.bcu.controller;
 
+import jdk.nashorn.internal.parser.JSONParser;
 import net.sf.json.JSONObject;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -28,6 +29,10 @@ public class WXController {
      * @param resp
      * @throws Exception
      */
+
+    static String appid="wx53d0f9e697163f5c";
+    static String secret= "39eca71d60a5520dea97556f8ad28f45";
+  //  static String access_token="";
     @RequestMapping(value = "/login",method = {RequestMethod.GET,RequestMethod.POST})
     public void dologin(HttpServletRequest req, HttpServletResponse resp) throws Exception
     {
@@ -66,10 +71,9 @@ public class WXController {
         resp.setContentType("html/json;charset=UTF8");
 
         PrintWriter out=resp.getWriter();
-
+        String access_token=getAccessToken();
         String openid=req.getParameter("openid");
-        String access_token=req.getParameter("accessToken");
-        String url="https://api.weixin.qq.com/cgi-bin/user/info?access_token="+access_token+"&openid="+openid+"&lang=zh_CN";
+        String url="https://api.weixin.qq.com/cgi-bin/user/info?access_token="+access_token+"&openid="+openid;
         String result=get(url);
         JSONObject json=JSONObject.fromObject(result);
         out.println(json);
@@ -77,6 +81,22 @@ public class WXController {
         out.close();
 
     }
+
+    public String  getAccessToken()
+    {
+        String appid="wx53d0f9e697163f5c";
+        String secret= "39eca71d60a5520dea97556f8ad28f45";
+
+       String url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+appid+"&secret="+secret;
+       JSONObject object=JSONObject.fromObject(get(url));
+       String access_token=object.getString("access_token");
+        System.out.println("ACCESS_TOKEN:"+access_token);
+       return  access_token;
+    }
+
+
+
+
 
 
 

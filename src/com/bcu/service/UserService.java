@@ -80,5 +80,7 @@ public class UserService {
 
     public String selectUserOpenIdByUserId(String userId){ return userMapper.selectUserOpenIdByUserId(userId) ;}
 
+    public User findByUserId(String userId){  return userMapper.findByUserId(userId);  }
+
 
 }

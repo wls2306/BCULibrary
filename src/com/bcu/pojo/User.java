@@ -11,10 +11,31 @@ public class User {
 	*/
     private String userOpenId;
 
+
     /**
 	* 姓名
 	*/
     private String userName;
+
+    /**
+     * 用户昵称
+     */
+    private String userNickName;
+
+    public String getUserNickName() {
+        return userNickName;
+    }
+
+    public void setUserNickName(String userNickName) {
+        this.userNickName = userNickName;
+    }
+
+    /**
+     * 用户头像
+     */
+    private String userImage;
+
+
 
     /**
 	* 学部
@@ -30,6 +51,15 @@ public class User {
 	* 用户状态 封禁/正常
 	*/
     private Integer userStatus;
+
+
+    public String getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
+    }
 
     public String getUserId() {
         return userId;

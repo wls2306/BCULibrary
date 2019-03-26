@@ -23,6 +23,17 @@ public class Study {
 	*/
     private String studyUserName;
 
+
+    private String studyUserPart;
+
+    public String getStudyUserPart() {
+        return studyUserPart;
+    }
+
+    public void setStudyUserPart(String studyUserPart) {
+        this.studyUserPart = studyUserPart;
+    }
+
     /**
 	* 
 	*/

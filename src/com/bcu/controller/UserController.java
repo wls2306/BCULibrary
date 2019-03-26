@@ -35,6 +35,8 @@ public class UserController {
         System.out.println(userPart);
         String userOpenId=req.getParameter("userOpenId");
         System.out.println(userOpenId);
+        String userNickName=req.getParameter("userNickName");
+        String userImage=req.getParameter("userImage");
         User u=new User();
         u.setUserId(userId);
         u.setUserName(userName);
@@ -42,6 +44,8 @@ public class UserController {
         u.setUserPart(userPart);
         u.setUserStudyTime(0);
         u.setUserStatus(1);
+        u.setUserNickName(userNickName);
+        u.setUserImage(userImage);
         boolean rs=userService.insertUser(u);
         PrintWriter out=resp.getWriter();
         out.println(JSONObject.fromObject(rs));

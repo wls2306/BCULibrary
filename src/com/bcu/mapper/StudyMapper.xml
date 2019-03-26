@@ -9,6 +9,7 @@
         <result column="study_user_name" property="studyUserName" jdbcType="VARCHAR"/>
         <result column="study_start_time" property="studyStartTime" jdbcType="TIMESTAMP"/>
         <result column="study_end_time" property="studyEndTime" jdbcType="TIMESTAMP"/>
+        <result column="study_user_part" property="studyUserPart" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--auto generated Code-->
@@ -17,81 +18,92 @@
         study_user_id,
         study_user_name,
         study_start_time,
-        study_end_time
-    </sql>
+        study_end_time,
+        study_user_part
+</sql>
 
     <!--auto generated Code-->
     <insert id="insert" useGeneratedKeys="true" keyProperty="studySeatId">
         INSERT INTO study (
+            id,
             study_seat_id,
             study_user_id,
             study_user_name,
             study_start_time,
-            study_end_time
+            study_end_time,
+            study_user_part
         ) VALUES (
+            #{study.id,jdbcType=INTEGER},
             #{study.studySeatId,jdbcType=VARCHAR},
             #{study.studyUserId,jdbcType=VARCHAR},
             #{study.studyUserName,jdbcType=VARCHAR},
             #{study.studyStartTime,jdbcType=TIMESTAMP},
-            #{study.studyEndTime,jdbcType=TIMESTAMP}
+            #{study.studyEndTime,jdbcType=TIMESTAMP},
+            #{study.studyUserPart,jdbcType=VARCHAR}
         )
-    </insert>
+</insert>
 
     <!--auto generated Code-->
     <insert id="insertSelective" useGeneratedKeys="true" keyProperty="studySeatId">
         INSERT INTO study
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="study.id!=null"> id,</if>
             <if test="study.studySeatId!=null"> study_seat_id,</if>
             <if test="study.studyUserId!=null"> study_user_id,</if>
             <if test="study.studyUserName!=null"> study_user_name,</if>
             <if test="study.studyStartTime!=null"> study_start_time,</if>
             <if test="study.studyEndTime!=null"> study_end_time,</if>
+            <if test="study.studyUserPart!=null"> study_user_part</if>
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="study.studySeatId!=null">#{study.studySeatId,jdbcType=VARCHAR},
-            </if>
-            <if test="study.studyUserId!=null">#{study.studyUserId,jdbcType=VARCHAR},
-            </if>
-            <if test="study.studyUserName!=null">#{study.studyUserName,jdbcType=VARCHAR},
-            </if>
-            <if test="study.studyStartTime!=null">#{study.studyStartTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="study.studyEndTime!=null">#{study.studyEndTime,jdbcType=TIMESTAMP},
-            </if>
+            <if test="study.id!=null"> #{study.id,jdbcType=INTEGER},</if>
+            <if test="study.studySeatId!=null"> #{study.studySeatId,jdbcType=VARCHAR},</if>
+            <if test="study.studyUserId!=null"> #{study.studyUserId,jdbcType=VARCHAR},</if>
+            <if test="study.studyUserName!=null"> #{study.studyUserName,jdbcType=VARCHAR},</if>
+            <if test="study.studyStartTime!=null"> #{study.studyStartTime,jdbcType=TIMESTAMP},</if>
+            <if test="study.studyEndTime!=null"> #{study.studyEndTime,jdbcType=TIMESTAMP},</if>
+            <if test="study.studyUserPart!=null"> #{study.studyUserPart,jdbcType=VARCHAR}</if>
         </trim>
-    </insert>
+</insert>
 
     <!--auto generated Code-->
     <insert id="insertList">
-        INSERT INTO study (
+        INSERT INTO study(
+            id,
             study_seat_id,
             study_user_id,
             study_user_name,
             study_start_time,
-            study_end_time
+            study_end_time,
+            study_user_part
         )VALUES
         <foreach collection="studys" item="study" index="index" separator=",">
-            (
+        (
+            #{study.id,jdbcType=INTEGER},
             #{study.studySeatId,jdbcType=VARCHAR},
             #{study.studyUserId,jdbcType=VARCHAR},
             #{study.studyUserName,jdbcType=VARCHAR},
             #{study.studyStartTime,jdbcType=TIMESTAMP},
-            #{study.studyEndTime,jdbcType=TIMESTAMP}
-            )
+            #{study.studyEndTime,jdbcType=TIMESTAMP},
+            #{study.studyUserPart,jdbcType=VARCHAR}
+        )
         </foreach>
-    </insert>
+</insert>
 
     <!--auto generated Code-->
     <update id="updateByPrimaryKeySelective">
         UPDATE study
         <set>
-            <if test="study.studyUserId != null"> study_user_id= #{study.studyUserId,jdbcType=VARCHAR},</if>
-            <if test="study.studyUserName != null"> study_user_name= #{study.studyUserName,jdbcType=VARCHAR},</if>
-            <if test="study.studyStartTime != null"> study_start_time= #{study.studyStartTime,jdbcType=TIMESTAMP},</if>
-            <if test="study.studyEndTime != null"> study_end_time= #{study.studyEndTime,jdbcType=TIMESTAMP}</if>
+                <if test="study.id != null"> id = #{study.id,jdbcType=INTEGER},</if>
+                <if test="study.studySeatId != null"> study_seat_id = #{study.studySeatId,jdbcType=VARCHAR},</if>
+                <if test="study.studyUserId != null"> study_user_id = #{study.studyUserId,jdbcType=VARCHAR},</if>
+                <if test="study.studyUserName != null"> study_user_name = #{study.studyUserName,jdbcType=VARCHAR},</if>
+                <if test="study.studyStartTime != null"> study_start_time = #{study.studyStartTime,jdbcType=TIMESTAMP},</if>
+                <if test="study.studyEndTime != null"> study_end_time = #{study.studyEndTime,jdbcType=TIMESTAMP},</if>
+                <if test="study.studyUserPart != null"> study_user_part = #{study.studyUserPart,jdbcType=VARCHAR}</if>
         </set>
-        WHERE study_seat_id = #{study.studySeatId,jdbcType=VARCHAR}
+		WHERE study_seat_id = #{study.studySeatId,jdbcType=VARCHAR}
     </update>
 
 
@@ -108,11 +120,18 @@
     </select>
 
 
-<!--
-    <select id="selectStudyTimeByUserPart" resultType="int">
-        select COUNT (TIMESTAMPDIFF(HOUR,seat_time_start,study_end_time)) where study_user_id
+
+    <select id="selectStudyTimeByUserPart" resultType="java.lang.Integer">
+    select
+      sum(TIMESTAMPDIFF(HOUR,
+        study_start_time,
+        study_end_time)) as sum
+    from
+        study
+    where
+        study_user_part =#{studyUserPart}
     </select>
--->
+
 
 
 

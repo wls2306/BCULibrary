@@ -1,9 +1,6 @@
 package com.bcu.controller;
 
-import com.bcu.pojo.Message;
-import com.bcu.pojo.Seat;
-import com.bcu.pojo.Study;
-import com.bcu.pojo.Wait;
+import com.bcu.pojo.*;
 import com.bcu.service.MessageService;
 import com.bcu.service.SeatService;
 import com.bcu.service.UserService;
@@ -46,11 +43,14 @@ public class StudyController  {
         System.out.println(seatId);
        // String userName=req.getParameter("userName");
 
+         User u=userService.findByUserId(userId);
+
+
         String hours=req.getParameter("hours");
         System.out.println(hours);
         Date[] date= StudyUtil.getTime(Integer.parseInt(hours));
 
-        rs.put("result",seatService.checkInSeat( Integer.parseInt(seatId),userId,date[0],date[1])+"");
+        rs.put("result",seatService.checkInSeat(Integer.parseInt(seatId),userId,date[0],date[1],u.getUserName(),u.getUserPart())+"");
         out.println(JSONObject.fromObject(rs));
 
     }
@@ -67,14 +67,18 @@ public class StudyController  {
 
         String seatId=req.getParameter("seatId");
         String userId=seatService.selectSeatUserIdBySeatId(Integer.parseInt(seatId));
-        String openid=userService.selectUserOpenIdByUserId(userId);
+        User u=userService.findByUserId(userId);
         HashMap<String,String> rsMap=new HashMap<>();
         if(seatService.seatIsEnable(Integer.parseInt(seatId)))
             rsMap.put("rs","true");
         else
             {
                 rsMap.put("rs", "false");
-                rsMap.put("openid", openid);
+
+                rsMap.put("openid", u.getUserOpenId());
+                rsMap.put("userNiceName",u.getUserNickName());
+                rsMap.put("userImage",u.getUserImage());
+
             }
 
             out.println(JSONObject.fromObject(rsMap));
@@ -91,7 +95,7 @@ public class StudyController  {
 
         String seatId=req.getParameter("seatId");
         boolean rs= StudyUtil.checkOut(seatId);
-        out.println("true");
+        out.println(rs+"");
     }
 
     @RequestMapping(value = "/report",method = {RequestMethod.GET,RequestMethod.POST})
