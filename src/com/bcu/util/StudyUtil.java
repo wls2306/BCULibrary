@@ -58,7 +58,7 @@ public class StudyUtil {
             Date end=s.getStudyEndTime();
            // System.out.println(end);
             if (end.before(new Date())) {
-                new StudyUtil().checkOut(s.getStudyUserId());
+                 studyUtil.checkOut(s.getStudyUserId());
                 System.out.println(s.getStudyUserName() +"超时退座");
             }
         }

@@ -24,7 +24,7 @@ public interface SeatMapper {
 
     int CountAvailableSeat();
 
-    int checkOutBySeatId(@Param("seatId")Integer seatId);
+    int checkOutBySeatId(@Param("seatId")int seatId);
 
     String selectSeatUserIdBySeatId(@Param("seatId")Integer seatId);
 

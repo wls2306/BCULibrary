@@ -80,21 +80,15 @@ public class SeatService {
      * 请不要直接调用此方法！
      * 请调用 StudyUtil 中的  checkOut 方法完成完整的退座流程
      * 本流程无法完成时长的累计！
-     * @param seatId
+     * @param
      * @return
      */
-    public boolean checkOutSeat(Integer seatId)
+
+    public boolean checkOutSeat(int seatId)
     {
 
-        Seat s=new Seat();//(seatId,1,null,null,null,null);
-        s.setSeatId(seatId);
-        s.setSeatStatus(1);
-        s.setSeatTimeEnd(null);
-        s.setSeatUserId("");
-        s.setSeatUserName("");
-        s.setSeatTimeEnd(null);
-        return seatDao.checkOutBySeatId(seatId)>0?true:false;
-
+        System.out.println(seatId+seatDao.checkOutBySeatId(1));
+        return true;
 
     }
 

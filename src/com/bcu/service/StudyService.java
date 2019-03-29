@@ -48,4 +48,6 @@ public class StudyService {
 
     public List<Study> selectStudyRecordBySeatId(String seatId){  return  studyDao.selectbyStudySeatId(seatId);  }
 
+    public String selectSeatInfoByStudentId(String userId){  return studyDao.selectSeatInfoByStudentId(userId); }
+
 }

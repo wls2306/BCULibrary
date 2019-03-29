@@ -26,5 +26,11 @@ public interface MessageMapper {
 
     int  deletebyMessageSeatId(@Param("messageSeatId")String messageSeatId);
 
+    String selectByMessageSeatId(@Param("messageSeatId")String messageSeatId);
+
+    Message selectByMessageInitiatorId(@Param("messageInitiatorId")String messageInitiatorId);
+
+
+
 
 }

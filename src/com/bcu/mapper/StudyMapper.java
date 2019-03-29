@@ -22,4 +22,8 @@ public interface StudyMapper {
 
     int selectStudyTimeByUserPart(String studyUserPart);
 
+    String selectSeatInfoByStudentId(String userId);
+
+
+
 }

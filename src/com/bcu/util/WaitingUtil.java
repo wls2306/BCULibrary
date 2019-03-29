@@ -45,8 +45,10 @@ public class WaitingUtil {
         {
             w=(Wait)seatWaitingList.get(i);
             d=w.getEndTime();
+            System.out.println("等待队列正在遍历！ 等待座位"+w.getSeatId() +"到期时间"+w.getEndTime());
             if (d.before(new Date()))
-                waitingUtil.checkOutWaitingList(Integer.parseInt(w.getSeatId()));
+                System.out.println("退座结果："+waitingUtil.checkOutWaitingList(Integer.parseInt(w.getSeatId())));
+               // waitingUtil.checkOutWaitingList(Integer.parseInt(w.getSeatId()));
         }
     }
 
@@ -70,13 +72,15 @@ public class WaitingUtil {
     {
         for (int i=0;i<seatWaitingList.size();i++)
         {
+            System.out.println("开始执行退座操作！退座作为号是"+seatId);
             Wait w=seatWaitingList.get(i);
-            if (w.getSeatId()==seatId+"")
+            if ( Integer.valueOf(w.getSeatId())==seatId)
             {
                 /**
                  *  被举报造成的强制退座，学习时长不计
                  */
                 if ( waitingUtil.seatService.checkOutSeat(seatId)) { //先在数据库中移除对象 后在队列中移除数据
+                    System.out.println("数据库踢出");
                     seatWaitingList.remove(i);
                       waitingUtil.messageService.deletebyMessageSeatId(seatId+"");
                     return true;

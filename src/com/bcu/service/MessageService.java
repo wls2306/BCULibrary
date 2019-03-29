@@ -36,4 +36,6 @@ public boolean deletebyMessageSeatId(String seatId)
     return messageMapper.deletebyMessageSeatId(seatId)>0?true:false;
 }
 
+public String selectByMessageSeatId(String seatId){  return messageMapper.selectByMessageSeatId(seatId);  }
+
 }
