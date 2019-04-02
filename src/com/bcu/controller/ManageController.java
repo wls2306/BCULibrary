@@ -89,6 +89,13 @@ private StudyMapper studyMapper;
 
     }
 
+
+
+
+
+
+
+
     @RequestMapping(value = "/selectSeatUser",method = {RequestMethod.GET,RequestMethod.POST})
     public  void selectSeatUser(HttpServletRequest req,HttpServletResponse resp)throws Exception
     {
@@ -137,7 +144,12 @@ private StudyMapper studyMapper;
 
 
     }
-
+/****
+ * ***************************************************************
+ * **************************************************************
+ * **************************************************************
+ *
+ */
 
     /**
      * 获取学部学习总时长
@@ -154,15 +166,58 @@ private StudyMapper studyMapper;
 
         PrintWriter out=resp.getWriter();
 
+        //HashMap<String,String> rsMap=new HashMap<>();
+        /*
         String part=req.getParameter("part");
 
         int rs=studyMapper.selectStudyTimeByUserPart(part);
+*/
+
+        /**
+         * 信息学部 、经管学部 、表演学部、教育学部
+         */
+
+        int xinxi=studyMapper.selectStudyTimeByUserPart("信息学部");
+        int jingguan=studyMapper.selectStudyTimeByUserPart("经管学部");
+        int biaoyan=studyMapper.selectStudyTimeByUserPart("表演学部");
+        int jiaoyu=studyMapper.selectStudyTimeByUserPart("教育学部");
 
         HashMap<String,String> rsMap=new HashMap<>();
-        rsMap.put("result",rs+"");
+        rsMap.put("xinxi",xinxi+"");
+        rsMap.put("jingguan",jingguan+"");
+        rsMap.put("biaoyan",biaoyan+"");
+        rsMap.put("jiaoyu",jiaoyu+"");
+
         out.println(JSONObject.fromObject(rsMap));
+    }
 
 
+    /**
+     * 通过学号获取学习记录
+     */
+
+    @RequestMapping(value = "/getStudyRecordByUserId",method = {RequestMethod.GET,RequestMethod.POST})
+    public void getStudyRecordByUserId(HttpServletRequest req,HttpServletResponse resp)throws Exception
+    {
+        req.setCharacterEncoding("utf-8");
+        resp.setCharacterEncoding("utf-8");
+        resp.setContentType("text/json;charset=UTF8");
+
+        PrintWriter out=resp.getWriter();
+
+        String userId=req.getParameter("userId");
+
+        List<Study> studyList=studyMapper.selectByStudyUserId(userId);
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+
+
+        for (Study study:studyList)
+        {
+            study.setStudyStartTimeString(sdf.format(study.getStudyStartTime()));
+            study.setStudyEndTimeString(sdf.format(study.getStudyEndTime()));
+        }
+
+        out.println(JSONArray.fromObject(studyList));
 
     }
 

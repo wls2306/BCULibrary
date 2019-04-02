@@ -105,7 +105,17 @@ public class StudyController  {
 
         String seatId=req.getParameter("seatId");
         boolean rs= StudyUtil.checkOut(seatId);
+        if (messageMapper.selectByMessageSeatId(seatId)!=null)
+            messageMapper.deletebyMessageSeatId(seatId);
+
+
+
         out.println(rs+"");
+
+
+
+
+
     }
 
     @RequestMapping(value = "/report",method = {RequestMethod.GET,RequestMethod.POST})
@@ -123,7 +133,7 @@ public class StudyController  {
 
         Wait w=new Wait();
         w.setSeatId(seatId);
-        w.setEndTime(WaitingUtil.getFinalTime(1));
+        w.setEndTime(WaitingUtil.getFinalTime(15));
 
         HashMap<String,String> rs=new HashMap<>();
         rs.put("result",( messageService.createMessage(initiatorId,receiverId,seatId,initiatorOpenId)&&WaitingUtil.checkInWatingList(w))+"");
@@ -255,6 +265,7 @@ public class StudyController  {
 
             System.out.println("balance"+balance);
             result.put("Second", balance+"");
+            result.put("seatId",m.getMessageSeatId());
         }else {
             result.put("result","false");
         }
@@ -263,6 +274,7 @@ public class StudyController  {
 
 
     }
+
 
 
 

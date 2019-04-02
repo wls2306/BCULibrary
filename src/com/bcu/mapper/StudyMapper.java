@@ -24,6 +24,8 @@ public interface StudyMapper {
 
     String selectSeatInfoByStudentId(String userId);
 
+    List<Study> selectByStudyUserId(@Param("studyUserId")String studyUserId);
+
 
 
 }

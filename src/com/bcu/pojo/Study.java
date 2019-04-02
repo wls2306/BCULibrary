@@ -44,6 +44,27 @@ public class Study {
 	*/
     private Date studyEndTime;
 
+
+    private String studyStartTimeString;
+
+    private String studyEndTimeString;
+
+    public String getStudyStartTimeString() {
+        return studyStartTimeString;
+    }
+
+    public void setStudyStartTimeString(String studyStartTimeString) {
+        this.studyStartTimeString = studyStartTimeString;
+    }
+
+    public String getStudyEndTimeString() {
+        return studyEndTimeString;
+    }
+
+    public void setStudyEndTimeString(String studyEndTimeString) {
+        this.studyEndTimeString = studyEndTimeString;
+    }
+
     public Integer getId() {
         return id;
     }

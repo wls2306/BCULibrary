@@ -1,8 +1,10 @@
 package com.bcu.controller;
 
 import com.bcu.mapper.MessageMapper;
+import com.bcu.mapper.SeatMapper;
 import com.bcu.pojo.Message;
 import com.bcu.pojo.User;
+import com.bcu.service.SeatService;
 import com.bcu.service.UserService;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,8 @@ public class MessageController {
     private MessageMapper messageMapper;
     @Autowired
     private UserService userService;
+    @Autowired
+    private SeatService seatService;
 
     /**
      *传入 个人 userId
@@ -39,6 +43,7 @@ public class MessageController {
 
         PrintWriter out=resp.getWriter();
         String id=req.getParameter("userId");
+        String seatId=req.getParameter("seatId");
         HashMap<String, String> rsMap = new HashMap<>();
 
         Message m=messageMapper.selectByMessageReceiverId(id);
@@ -50,10 +55,19 @@ public class MessageController {
             rsMap.put("nickName", u.getUserNickName());
             rsMap.put("avatarUrl", u.getUserImage());
             rsMap.put("time", sdf.format(m.getMessageCreateTime()));
+            rsMap.put("result","");
             out.println(JSONObject.fromObject(rsMap));
-        }else
+        }else if (Integer.valueOf(seatId)!=0)
         {
-            out.println("null");
+           if (seatService.seatIsEnable(Integer.parseInt(seatId))) {
+               rsMap.put("result", "false");
+               /*rsMap.put("message", "原主人已回归");*/
+           }else{
+               rsMap.put("result", "true");
+//               rsMap.put("message", "原主人已放弃该座位，请重新扫码入座");
+           }
+
+            out.println(JSONObject.fromObject(rsMap));
         }
 
 
