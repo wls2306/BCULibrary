@@ -1,5 +1,7 @@
 package com.bcu.controller;
 
+import com.bcu.mapper.UserMapper;
+import com.bcu.pojo.User;
 import jdk.nashorn.internal.parser.JSONParser;
 import net.sf.json.JSONObject;
 import org.apache.http.client.ClientProtocolException;
@@ -8,6 +10,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,11 +21,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 
 @Controller
 public class WXController {
 
-
+@Autowired
+private UserMapper userMapper;
     /**
      * 获取用户OpenId
      * @param req
@@ -30,8 +35,8 @@ public class WXController {
      * @throws Exception
      */
 
-    static String appid="wx53d0f9e697163f5c";
-    static String secret= "39eca71d60a5520dea97556f8ad28f45";
+  //  static String appid="wx53d0f9e697163f5c";
+   // static String secret= "39eca71d60a5520dea97556f8ad28f45";
   //  static String access_token="";
     @RequestMapping(value = "/login",method = {RequestMethod.GET,RequestMethod.POST})
     public void dologin(HttpServletRequest req, HttpServletResponse resp) throws Exception
@@ -42,8 +47,8 @@ public class WXController {
 
             String js_code=req.getParameter("js_code");
 
-            String appid="wx53d0f9e697163f5c";
-            String secret= "39eca71d60a5520dea97556f8ad28f45";
+            String appid="wxe73728aecd11c41e";
+            String secret= "562ceffd3d32d11230b480cfafc116a2";
             String url="https://api.weixin.qq.com/sns/jscode2session?appid="+appid+"&secret="+secret+"&js_code="+js_code+"&grant_type=authorization_code";
             String result=get(url);
             //System.out.println(url);
@@ -84,8 +89,8 @@ public class WXController {
 
     public String  getAccessToken()
     {
-        String appid="wx53d0f9e697163f5c";
-        String secret= "39eca71d60a5520dea97556f8ad28f45";
+        String appid="wxe73728aecd11c41e";
+        String secret= "562ceffd3d32d11230b480cfafc116a2";
 
        String url="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+appid+"&secret="+secret;
        JSONObject object=JSONObject.fromObject(get(url));
@@ -121,4 +126,38 @@ public class WXController {
         }
         return content;
     }
+
+
+    /**
+     * 管理端登陆
+     * @param req
+     * @param resp
+     * @throws Exception
+     */
+    @RequestMapping(value = "/dologin",method = {RequestMethod.GET,RequestMethod.POST})
+    public void login(HttpServletRequest req,HttpServletResponse resp)throws Exception
+    {
+        req.setCharacterEncoding("utf-8");
+        resp.setCharacterEncoding("utf-8");
+        resp.setContentType("text/json;charset=UTF8");
+        PrintWriter out=resp.getWriter();
+       HashMap rsMap=new HashMap();
+        String userId=req.getParameter("username");
+        String userOpenId=req.getParameter("password");
+
+        User u=userMapper.selectByUserIdAndUserOpenid(userId,userOpenId);
+        if (u.getUserId()!="")
+        {
+            rsMap.put("result",true);
+            rsMap.put("username",u.getUserId());
+        }else
+        {
+            rsMap.put("result",false);
+        }
+
+        out.println(JSONObject.fromObject(rsMap));
+
+
+    }
+
 }

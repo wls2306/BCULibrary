@@ -20,6 +20,7 @@ import java.util.HashMap;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
     private UserMapper userMapper;
     @RequestMapping(value = "/insertInfo",method = {RequestMethod.GET,RequestMethod.POST})
     public void insertUserInfo(HttpServletRequest req, HttpServletResponse resp) throws Exception
@@ -28,16 +29,12 @@ public class UserController {
         resp.setCharacterEncoding("utf-8");
         resp.setContentType("text/json;charset=UTF8");
         String userName=req.getParameter("userName");
-        System.out.println(userName);
         String userId=req.getParameter("userId");
-        System.out.println(userId);
         String userPart=req.getParameter("userPart");
-        System.out.println(userPart);
         String userOpenId=req.getParameter("userOpenId");
-        System.out.println(userOpenId);
         String userNickName=req.getParameter("userNickName");
         String userImage=req.getParameter("userImage");
-        User u=new User();
+        User u = new User();
         u.setUserId(userId);
         u.setUserName(userName);
         u.setUserOpenId(userOpenId);
@@ -46,7 +43,7 @@ public class UserController {
         u.setUserStatus(1);
         u.setUserNickName(userNickName);
         u.setUserImage(userImage);
-        boolean rs=userService.insertUser(u);
+        boolean rs = userService.insertUser(u);
         PrintWriter out=resp.getWriter();
         out.println(JSONObject.fromObject(rs));
 

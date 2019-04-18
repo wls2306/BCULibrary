@@ -69,10 +69,11 @@ public class SeatService {
     public boolean seatIsEnable(int seatId)
     {
         Seat s=seatDao.findBySeatId(seatId);
-        if (s.getSeatStatus()==1)
+
+        if (s.getSeatStatus()==1)//座位可用
             return true;
        else
-             return false;
+             return false;//座位不可用
 
     }
 

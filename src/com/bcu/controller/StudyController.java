@@ -108,8 +108,6 @@ public class StudyController  {
         if (messageMapper.selectByMessageSeatId(seatId)!=null)
             messageMapper.deletebyMessageSeatId(seatId);
 
-
-
         out.println(rs+"");
 
 

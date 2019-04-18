@@ -76,7 +76,7 @@ public class UserService {
         return userMapper.findUserStudyTimeByUserId(userId);
     }
 
-    public int getUserRankByOpenId(String openid) {  return  userMapper.getUserRankByOpenId(openid); }
+    public String getUserRankByOpenId(String openid) {  return  userMapper.getUserRankByOpenId(openid); }
 
     public String selectUserOpenIdByUserId(String userId){ return userMapper.selectUserOpenIdByUserId(userId) ;}
 

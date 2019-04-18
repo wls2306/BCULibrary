@@ -16,7 +16,7 @@ public interface StudyMapper {
 
     int updateByPrimaryKeySelective(@Param("study") Study study);
 
-    List<Study> selectStudyRecordByTime(String timeStart,String timeEnd);
+    List<Study> selectStudyRecordByTime(@Param("timeStart")String timeStart,@Param("timeEnd")String timeEnd);
 
     List<Study> selectbyStudySeatId(@Param("studySeatId")String studySeatId);
 

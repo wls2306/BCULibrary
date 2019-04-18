@@ -49,9 +49,12 @@ public interface UserMapper {
 
      User findByUserOpenId(@Param("userOpenId")String userOpenId);
 
-     int getUserRankByOpenId(@Param("userOpenId")String userOpenId);
+     String getUserRankByOpenId(@Param("userOpenId")String userOpenId);
 
      String selectUserOpenIdByUserId(@Param("userId")String userId);
+
+     User selectByUserIdAndUserOpenid(@Param("userId")String userId,@Param("userOpenId")String userOpenId);
+
 
 
 

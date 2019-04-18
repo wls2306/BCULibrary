@@ -51,12 +51,11 @@ public class MessageController {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             User u = userService.findByUserId(m.getMessageInitiatorId());
 
-
             rsMap.put("nickName", u.getUserNickName());
             rsMap.put("avatarUrl", u.getUserImage());
             rsMap.put("time", sdf.format(m.getMessageCreateTime()));
-            rsMap.put("result","");
-            out.println(JSONObject.fromObject(rsMap));
+            rsMap.put("result","1");
+      //      out.println(JSONObject.fromObject(rsMap));
         }else if (Integer.valueOf(seatId)!=0)
         {
            if (seatService.seatIsEnable(Integer.parseInt(seatId))) {
@@ -67,9 +66,12 @@ public class MessageController {
 //               rsMap.put("message", "原主人已放弃该座位，请重新扫码入座");
            }
 
-            out.println(JSONObject.fromObject(rsMap));
+
+        }else
+        {
+            rsMap.put("result", "0");
         }
 
-
+        out.println(JSONObject.fromObject(rsMap));
     }
 }

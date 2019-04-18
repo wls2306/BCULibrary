@@ -29,9 +29,12 @@ public class ManageController {
      *  查询时间范围内的占座信息 √
      *  通过座位号查询使用记录 √
      *  问题反馈√
+     *
      *  根据学部获取学部学生总学习时长 √
      *  输入座位号查询当前座位学习情况 √
      */
+
+
 @Autowired
 private StudyService studyService;
 @Autowired
@@ -56,10 +59,13 @@ private StudyMapper studyMapper;
 
         PrintWriter out=resp.getWriter();
 
+
         String timeStart=req.getParameter("timeStart");
         String timeEnd=req.getParameter("timeEnd");
 
-        List<Study> list=studyService.selectStudyRecordByTime(timeStart,timeEnd);
+
+        List<Study> list=studyMapper.selectStudyRecordByTime("2019-04-01","2019-04-20");
+              //  studyService.selectStudyRecordByTime("2019-04-01",);
 
         out.println(JSONArray.fromObject(list));
 
@@ -142,8 +148,23 @@ private StudyMapper studyMapper;
 
         out.println(JSONObject.fromObject(result));
 
-
     }
+
+    /**
+     * 获取所有反馈
+     */
+    @RequestMapping(value = "/getfeedback" ,method = {RequestMethod.GET,RequestMethod.POST})
+    public void getFeedback(HttpServletResponse resp,HttpServletRequest req)throws Exception
+    {
+        req.setCharacterEncoding("utf-8");
+        resp.setCharacterEncoding("utf-8");
+        resp.setContentType("text/json;charset=UTF8");
+        PrintWriter out=resp.getWriter();
+        List<Feedback> list=feedbackService.getFeedback();
+        out.println(JSONArray.fromObject(list));
+    }
+
+
 /****
  * ***************************************************************
  * **************************************************************
