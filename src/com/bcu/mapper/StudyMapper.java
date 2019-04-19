@@ -26,6 +26,7 @@ public interface StudyMapper {
 
     List<Study> selectByStudyUserId(@Param("studyUserId")String studyUserId);
 
+    int selectStudyTimesByUserId(@Param("userId")String userId);
 
 
 }

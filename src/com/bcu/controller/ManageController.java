@@ -64,7 +64,7 @@ private StudyMapper studyMapper;
         String timeEnd=req.getParameter("timeEnd");
 
 
-        List<Study> list=studyMapper.selectStudyRecordByTime("2019-04-01","2019-04-20");
+        List<Study> list=studyMapper.selectStudyRecordByTime(timeStart,timeEnd);
               //  studyService.selectStudyRecordByTime("2019-04-01",);
 
         out.println(JSONArray.fromObject(list));
@@ -242,6 +242,22 @@ private StudyMapper studyMapper;
 
     }
 
+    /**
+     * 获根据用户编号取学习次数
+     */
+    @RequestMapping("/getStudyTimes")
+    public void  getStudyDays(HttpServletRequest req,HttpServletResponse resp)throws Exception
+    {
+        req.setCharacterEncoding("utf-8");
+        resp.setCharacterEncoding("utf-8");
+        resp.setContentType("text/json;charset=UTF8");
+        PrintWriter out=resp.getWriter();
+        String userId=req.getParameter("userId");
+        int times=studyMapper.selectStudyTimesByUserId(userId);
+        HashMap rsMap=new HashMap();
+        rsMap.put("result",times);
+        out.println(JSONObject.fromObject(rsMap));
+    }
 
 
 }
